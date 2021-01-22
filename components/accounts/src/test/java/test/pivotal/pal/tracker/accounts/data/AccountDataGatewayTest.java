@@ -17,7 +17,7 @@ public class AccountDataGatewayTest {
 
     private TestScenarioSupport testScenarioSupport = new TestScenarioSupport("tracker_registration_test");
     private JdbcTemplate template = testScenarioSupport.template;
-    private AccountDataGateway gateway = new AccountDataGateway(testScenarioSupport.dataSource);
+    private AccountDataGateway gateway = new AccountDataGateway(template);
 
     @Before
     public void setup() {

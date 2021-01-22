@@ -17,8 +17,8 @@ import static java.sql.Statement.RETURN_GENERATED_KEYS;
 public class AccountDataGateway {
     private final JdbcTemplate jdbcTemplate;
 
-    public AccountDataGateway(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    public AccountDataGateway(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     public AccountRecord create(long ownerId, String name) {

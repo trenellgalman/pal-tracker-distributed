@@ -16,10 +16,10 @@ import static java.sql.Statement.RETURN_GENERATED_KEYS;
 @Repository
 public class AllocationDataGateway {
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
-    public AllocationDataGateway(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    public AllocationDataGateway(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
 

@@ -1,5 +1,7 @@
 package io.pivotal.pal.tracker.accounts.data;
 
+import java.util.Objects;
+
 public class AccountRecord {
 
     public final long id;
@@ -50,7 +52,7 @@ public class AccountRecord {
 
         if (id != that.id) return false;
         if (ownerId != that.ownerId) return false;
-        return name != null ? name.equals(that.name) : that.name == null;
+        return Objects.equals(name, that.name);
     }
 
     @Override

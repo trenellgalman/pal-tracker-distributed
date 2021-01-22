@@ -1,6 +1,7 @@
 package io.pivotal.pal.tracker.allocations.data;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class AllocationRecord {
 
@@ -70,9 +71,9 @@ public class AllocationRecord {
         if (id != that.id) return false;
         if (projectId != that.projectId) return false;
         if (userId != that.userId) return false;
-        if (firstDay != null ? !firstDay.equals(that.firstDay) : that.firstDay != null)
+        if (!Objects.equals(firstDay, that.firstDay))
             return false;
-        return lastDay != null ? lastDay.equals(that.lastDay) : that.lastDay == null;
+        return Objects.equals(lastDay, that.lastDay);
     }
 
     @Override

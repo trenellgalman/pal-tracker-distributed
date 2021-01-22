@@ -1,5 +1,7 @@
 package io.pivotal.pal.tracker.allocations;
 
+import java.util.Objects;
+
 public class AllocationInfo {
 
     public final long id;
@@ -92,11 +94,11 @@ public class AllocationInfo {
         if (id != info1.id) return false;
         if (projectId != info1.projectId) return false;
         if (userId != info1.userId) return false;
-        if (firstDay != null ? !firstDay.equals(info1.firstDay) : info1.firstDay != null)
+        if (!Objects.equals(firstDay, info1.firstDay))
             return false;
-        if (lastDay != null ? !lastDay.equals(info1.lastDay) : info1.lastDay != null)
+        if (!Objects.equals(lastDay, info1.lastDay))
             return false;
-        return info != null ? info.equals(info1.info) : info1.info == null;
+        return Objects.equals(info, info1.info);
     }
 
     @Override

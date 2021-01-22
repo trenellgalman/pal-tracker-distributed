@@ -1,5 +1,7 @@
 package io.pivotal.pal.tracker.accounts;
 
+import java.util.Objects;
+
 public class RegistrationForm {
 
     public final String name;
@@ -19,7 +21,7 @@ public class RegistrationForm {
 
         RegistrationForm that = (RegistrationForm) o;
 
-        return name != null ? name.equals(that.name) : that.name == null;
+        return Objects.equals(name, that.name);
     }
 
     @Override

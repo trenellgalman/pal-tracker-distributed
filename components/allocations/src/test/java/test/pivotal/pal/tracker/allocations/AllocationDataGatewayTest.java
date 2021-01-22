@@ -19,9 +19,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class AllocationDataGatewayTest {
 
-    private TestScenarioSupport testScenarioSupport = new TestScenarioSupport("tracker_allocations_test");
-    private JdbcTemplate template = testScenarioSupport.template;
-    private AllocationDataGateway gateway = new AllocationDataGateway(testScenarioSupport.dataSource);
+    private final TestScenarioSupport testScenarioSupport = new TestScenarioSupport("tracker_allocations_test");
+    private final JdbcTemplate template = testScenarioSupport.template;
+    private final AllocationDataGateway gateway = new AllocationDataGateway(testScenarioSupport.template);
 
     @Before
     public void setup() {

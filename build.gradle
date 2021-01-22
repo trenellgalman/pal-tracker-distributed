@@ -41,14 +41,14 @@ subprojects {
     }
 
     dependencies {
-        compile "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
-        compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
-        compile "com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion"
-        compile "org.slf4j:slf4j-api:$slf4jVersion"
+        implementation("com.fasterxml.jackson.core:jackson-core:$jacksonVersion")
+        implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
+        implementation("com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion")
+        implementation("org.slf4j:slf4j-api:$slf4jVersion")
 
-        testCompile "junit:junit:$junitVersion"
-        testCompile "org.mockito:mockito-core:$mockitoVersion"
-        testCompile "org.assertj:assertj-core:$assertJVersion"
+        testImplementation("junit:junit:$junitVersion")
+        testImplementation("org.mockito:mockito-core:$mockitoVersion")
+        testImplementation("org.assertj:assertj-core:$assertJVersion")
     }
 
     test {
