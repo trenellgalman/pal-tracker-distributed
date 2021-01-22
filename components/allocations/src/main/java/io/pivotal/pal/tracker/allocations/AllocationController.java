@@ -18,58 +18,53 @@ import static java.util.stream.Collectors.toList;
 @RequestMapping("/allocations")
 public class AllocationController {
 
-    private final AllocationDataGateway gateway;
-    private final ProjectClient client;
+  private final AllocationDataGateway gateway;
+  private final ProjectClient client;
 
-    public AllocationController(AllocationDataGateway gateway, ProjectClient client) {
-        this.gateway = gateway;
-        this.client = client;
+  public AllocationController(AllocationDataGateway gateway, ProjectClient client) {
+    this.gateway = gateway;
+    this.client = client;
+  }
+
+  @PostMapping
+  public ResponseEntity<AllocationInfo> create(@RequestBody AllocationForm form) {
+
+    if (projectIsActive(form.projectId)) {
+      AllocationRecord record = gateway.create(formToFields(form));
+      return new ResponseEntity<>(present(record), HttpStatus.CREATED);
     }
 
+    return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
+  }
 
-    @PostMapping
-    public ResponseEntity<AllocationInfo> create(@RequestBody AllocationForm form) {
+  @GetMapping
+  public List<AllocationInfo> list(@RequestParam long projectId) {
+    return gateway.findAllByProjectId(projectId).stream().map(this::present).collect(toList());
+  }
 
-        if (projectIsActive(form.projectId)) {
-            AllocationRecord record = gateway.create(formToFields(form));
-            return new ResponseEntity<>(present(record), HttpStatus.CREATED);
-        }
+  private boolean projectIsActive(long projectId) {
+    ProjectInfo project = client.getProject(projectId);
 
-        return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
-    }
+    return project != null && project.active;
+  }
 
-    @GetMapping
-    public List<AllocationInfo> list(@RequestParam long projectId) {
-        return gateway.findAllByProjectId(projectId)
-            .stream()
-            .map(this::present)
-            .collect(toList());
-    }
+  private AllocationFields formToFields(AllocationForm form) {
+    return allocationFieldsBuilder()
+        .projectId(form.projectId)
+        .userId(form.userId)
+        .firstDay(LocalDate.parse(form.firstDay))
+        .lastDay(LocalDate.parse(form.lastDay))
+        .build();
+  }
 
-
-    private boolean projectIsActive(long projectId) {
-        ProjectInfo project = client.getProject(projectId);
-
-        return project != null && project.active;
-    }
-
-    private AllocationFields formToFields(AllocationForm form) {
-        return allocationFieldsBuilder()
-            .projectId(form.projectId)
-            .userId(form.userId)
-            .firstDay(LocalDate.parse(form.firstDay))
-            .lastDay(LocalDate.parse(form.lastDay))
-            .build();
-    }
-
-    private AllocationInfo present(AllocationRecord record) {
-        return allocationInfoBuilder()
-            .id(record.id)
-            .projectId(record.projectId)
-            .userId(record.userId)
-            .firstDay(record.firstDay.toString())
-            .lastDay(record.lastDay.toString())
-            .info("allocation info")
-            .build();
-    }
+  private AllocationInfo present(AllocationRecord record) {
+    return allocationInfoBuilder()
+        .id(record.id)
+        .projectId(record.projectId)
+        .userId(record.userId)
+        .firstDay(record.firstDay.toString())
+        .lastDay(record.lastDay.toString())
+        .info("allocation info")
+        .build();
+  }
 }

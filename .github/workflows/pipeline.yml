@@ -2,7 +2,7 @@ name: Pal Tracker Distributed Pipeline
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   build-and-publish:

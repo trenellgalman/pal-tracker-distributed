@@ -14,38 +14,34 @@ import static io.pivotal.pal.tracker.timesheets.data.TimeEntryRecord.timeEntryRe
 
 public class TestBuilders {
 
-    public static TimeEntryRecord.Builder testTimeEntryRecordBuilder() {
-        return timeEntryRecordBuilder()
-            .id(11)
-            .projectId(12)
-            .userId(13)
-            .date(LocalDate.parse("2017-09-19"))
-            .hours(20);
-    }
+  public static TimeEntryRecord.Builder testTimeEntryRecordBuilder() {
+    return timeEntryRecordBuilder()
+        .id(11)
+        .projectId(12)
+        .userId(13)
+        .date(LocalDate.parse("2017-09-19"))
+        .hours(20);
+  }
 
-    public static TimeEntryFields.Builder testTimeEntryFieldsBuilder() {
-        return timeEntryFieldsBuilder()
-            .projectId(12)
-            .userId(13)
-            .date(LocalDate.parse("2017-09-19"))
-            .hours(20);
-    }
+  public static TimeEntryFields.Builder testTimeEntryFieldsBuilder() {
+    return timeEntryFieldsBuilder()
+        .projectId(12)
+        .userId(13)
+        .date(LocalDate.parse("2017-09-19"))
+        .hours(20);
+  }
 
-    public static TimeEntryForm.Builder testTimeEntryFormBuilder() {
-        return timeEntryFormBuilder()
-            .projectId(12)
-            .userId(13)
-            .date("2017-09-19")
-            .hours(20);
-    }
+  public static TimeEntryForm.Builder testTimeEntryFormBuilder() {
+    return timeEntryFormBuilder().projectId(12).userId(13).date("2017-09-19").hours(20);
+  }
 
-    public static TimeEntryInfo.Builder testTimeEntryInfoBuilder() {
-        return timeEntryInfoBuilder()
-            .id(11)
-            .projectId(12)
-            .userId(13)
-            .date("2017-09-19")
-            .hours(20)
-            .info("time entry info");
-    }
+  public static TimeEntryInfo.Builder testTimeEntryInfoBuilder() {
+    return timeEntryInfoBuilder()
+        .id(11)
+        .projectId(12)
+        .userId(13)
+        .date("2017-09-19")
+        .hours(20)
+        .info("time entry info");
+  }
 }

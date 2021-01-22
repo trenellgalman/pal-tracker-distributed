@@ -12,16 +12,16 @@ import static org.mockito.Mockito.*;
 
 public class UserControllerTest {
 
-    private UserDataGateway gateway = mock(UserDataGateway.class);
-    private UserController controller = new UserController(gateway);
+  private UserDataGateway gateway = mock(UserDataGateway.class);
+  private UserController controller = new UserController(gateway);
 
-    @Test
-    public void testShow() {
-        doReturn(new UserRecord(3L, "Some User")).when(gateway).find(anyLong());
+  @Test
+  public void testShow() {
+    doReturn(new UserRecord(3L, "Some User")).when(gateway).find(anyLong());
 
-        UserInfo result = controller.show(3);
+    UserInfo result = controller.show(3);
 
-        verify(gateway).find(3L);
-        assertThat(result).isEqualTo(new UserInfo(3L, "Some User", "user info"));
-    }
+    verify(gateway).find(3L);
+    assertThat(result).isEqualTo(new UserInfo(3L, "Some User", "user info"));
+  }
 }

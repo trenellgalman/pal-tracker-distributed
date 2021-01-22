@@ -1,5 +1,5 @@
-apply from: "$projectDir/../server.gradle"
+apply(from: "$projectDir/../server.gradle")
 
 dependencies {
-    compile project(":components:timesheets")
+    implementation(project(":components:timesheets"))
 }

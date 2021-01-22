@@ -11,21 +11,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/users")
 public class UserController {
 
-    private final UserDataGateway gateway;
+  private final UserDataGateway gateway;
 
-    public UserController(UserDataGateway gateway) {
-        this.gateway = gateway;
+  public UserController(UserDataGateway gateway) {
+    this.gateway = gateway;
+  }
+
+  @GetMapping("/{userId}")
+  public UserInfo show(@PathVariable long userId) {
+    UserRecord record = gateway.find(userId);
+
+    if (record == null) {
+      return null;
     }
 
-
-    @GetMapping("/{userId}")
-    public UserInfo show(@PathVariable long userId) {
-        UserRecord record = gateway.find(userId);
-
-        if (record == null) {
-            return null;
-        }
-
-        return new UserInfo(record.id, record.name, "user info");
-    }
+    return new UserInfo(record.id, record.name, "user info");
+  }
 }

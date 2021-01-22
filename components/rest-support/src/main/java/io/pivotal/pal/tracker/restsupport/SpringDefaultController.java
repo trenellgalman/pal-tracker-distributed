@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SpringDefaultController {
 
-    @GetMapping("/")
-    public String defaultRoute() {
-        return "Noop!";
-    }
+  @GetMapping("/")
+  public String defaultRoute() {
+    return "Noop!";
+  }
 }

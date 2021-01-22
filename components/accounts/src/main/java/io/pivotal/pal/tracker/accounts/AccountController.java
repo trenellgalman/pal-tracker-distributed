@@ -14,26 +14,23 @@ import static java.util.stream.Collectors.toList;
 @RestController
 public class AccountController {
 
-    private final AccountDataGateway gateway;
+  private final AccountDataGateway gateway;
 
-    public AccountController(AccountDataGateway gateway) {
-        this.gateway = gateway;
-    }
+  public AccountController(AccountDataGateway gateway) {
+    this.gateway = gateway;
+  }
 
-    @GetMapping("/accounts")
-    public List<AccountInfo> list(@RequestParam long ownerId) {
-        return gateway.findAllByOwnerId(ownerId)
-            .stream()
-            .map(this::present)
-            .collect(toList());
-    }
+  @GetMapping("/accounts")
+  public List<AccountInfo> list(@RequestParam long ownerId) {
+    return gateway.findAllByOwnerId(ownerId).stream().map(this::present).collect(toList());
+  }
 
-    private AccountInfo present(AccountRecord record) {
-        return accountInfoBuilder()
-            .id(record.id)
-            .ownerId(record.ownerId)
-            .name(record.name)
-            .info("account info")
-            .build();
-    }
+  private AccountInfo present(AccountRecord record) {
+    return accountInfoBuilder()
+        .id(record.id)
+        .ownerId(record.ownerId)
+        .name(record.name)
+        .info("account info")
+        .build();
+  }
 }

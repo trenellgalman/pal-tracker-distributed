@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class RegistrationController {
-    private final RegistrationService service;
+  private final RegistrationService service;
 
-    public RegistrationController(RegistrationService service) {
-        this.service = service;
-    }
+  public RegistrationController(RegistrationService service) {
+    this.service = service;
+  }
 
-    @PostMapping("/registration")
-    public UserInfo create(@RequestBody RegistrationForm form) {
-        UserRecord record = service.createUserWithAccount(form.name);
-        return new UserInfo(record.id, record.name, "registration info");
-    }
+  @PostMapping("/registration")
+  public UserInfo create(@RequestBody RegistrationForm form) {
+    UserRecord record = service.createUserWithAccount(form.name);
+    return new UserInfo(record.id, record.name, "registration info");
+  }
 }

@@ -10,23 +10,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 public class RegistrationServiceTest {
-    private UserDataGateway userDataGateway = mock(UserDataGateway.class);
-    private AccountDataGateway accountDataGateway = mock(AccountDataGateway.class);
-    private RegistrationService service = new RegistrationService(userDataGateway, accountDataGateway);
+  private UserDataGateway userDataGateway = mock(UserDataGateway.class);
+  private AccountDataGateway accountDataGateway = mock(AccountDataGateway.class);
+  private RegistrationService service =
+      new RegistrationService(userDataGateway, accountDataGateway);
 
-    @Test
-    public void testCreateUserWithAccount() {
-        UserRecord createdUser = new UserRecord(22L, "Some User");
-        doReturn(createdUser).when(userDataGateway).create("Some User");
+  @Test
+  public void testCreateUserWithAccount() {
+    UserRecord createdUser = new UserRecord(22L, "Some User");
+    doReturn(createdUser).when(userDataGateway).create("Some User");
 
+    UserRecord result = service.createUserWithAccount("Some User");
 
-        UserRecord result = service.createUserWithAccount("Some User");
+    verify(userDataGateway).create("Some User");
+    verify(accountDataGateway).create(22L, "Some User's account");
 
-
-        verify(userDataGateway).create("Some User");
-        verify(accountDataGateway).create(22L, "Some User's account");
-
-        UserRecord expectedResult = new UserRecord(22L, "Some User");
-        assertThat(result).isEqualTo(expectedResult);
-    }
+    UserRecord expectedResult = new UserRecord(22L, "Some User");
+    assertThat(result).isEqualTo(expectedResult);
+  }
 }

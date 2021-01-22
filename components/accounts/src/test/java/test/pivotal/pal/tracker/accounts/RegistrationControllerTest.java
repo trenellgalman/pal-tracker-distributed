@@ -13,19 +13,18 @@ import static org.mockito.Mockito.*;
 
 public class RegistrationControllerTest {
 
-    private RegistrationService registrationService = mock(RegistrationService.class);
-    private RegistrationController registrationController = new RegistrationController(registrationService);
+  private RegistrationService registrationService = mock(RegistrationService.class);
+  private RegistrationController registrationController =
+      new RegistrationController(registrationService);
 
-    @Test
-    public void create() {
-        UserRecord userRecord = new UserRecord(24L, "Billy");
-        doReturn(userRecord).when(registrationService).createUserWithAccount(any());
+  @Test
+  public void create() {
+    UserRecord userRecord = new UserRecord(24L, "Billy");
+    doReturn(userRecord).when(registrationService).createUserWithAccount(any());
 
+    UserInfo result = registrationController.create(new RegistrationForm("Billy"));
 
-        UserInfo result = registrationController.create(new RegistrationForm("Billy"));
-
-
-        verify(registrationService).createUserWithAccount("Billy");
-        assertThat(result).isEqualTo(new UserInfo(24L, "Billy", "registration info"));
-    }
+    verify(registrationService).createUserWithAccount("Billy");
+    assertThat(result).isEqualTo(new UserInfo(24L, "Billy", "registration info"));
+  }
 }

@@ -2,18 +2,18 @@ import io.pivotal.pal.tracker.gradlebuild.DependenciesGraphPlugin
 
 buildscript {
     ext {
-        springBootVersion = "2.1.13.RELEASE"
-        springVersion = "5.1.14.RELEASE"
-        mysqlVersion = "8.0.13"
-        jacksonVersion = "2.9.7"
-        slf4jVersion = "1.7.25"
-        mockitoVersion = "2.23.0"
-        assertJVersion = "3.11.1"
-        hikariVersion = "3.1.0"
+        springBootVersion = "2.4.2"
+        springVersion = "5.3.3"
+        mysqlVersion = "8.0.23"
+        jacksonVersion = "2.12.1"
+        slf4jVersion = "1.7.30"
+        mockitoVersion = "3.7.7"
+        assertJVersion = "3.18.1"
+        hikariVersion = "3.4.5"
         logbackVersion = "1.2.3"
-        junitVersion = "4.12"
-        okhttpVersion = "3.12.0"
-        jsonPathVersion = "2.4.0"
+        junitVersion = "5.7.0"
+        okhttpVersion = "4.9.0"
+        jsonPathVersion = "2.5.0"
     }
 
     repositories {
@@ -46,8 +46,10 @@ subprojects {
         implementation("com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion")
         implementation("org.slf4j:slf4j-api:$slf4jVersion")
 
-        testImplementation("junit:junit:$junitVersion")
+        testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
+        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
         testImplementation("org.mockito:mockito-core:$mockitoVersion")
+        testImplementation("org.mockito:mockito-junit-jupiter:$mockitoVersion")
         testImplementation("org.assertj:assertj-core:$assertJVersion")
     }
 

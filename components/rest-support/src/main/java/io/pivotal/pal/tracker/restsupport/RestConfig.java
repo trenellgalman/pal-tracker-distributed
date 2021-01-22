@@ -7,19 +7,18 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
-
 @Configuration
 public class RestConfig {
 
-    @Bean
-    public RestOperations restOperations() {
-        return new RestTemplate();
-    }
+  @Bean
+  public RestOperations restOperations() {
+    return new RestTemplate();
+  }
 
-    @Bean
-    public ObjectMapper objectMapper() {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        return mapper;
-    }
+  @Bean
+  public ObjectMapper objectMapper() {
+    ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    return mapper;
+  }
 }

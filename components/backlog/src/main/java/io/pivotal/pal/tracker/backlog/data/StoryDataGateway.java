@@ -15,47 +15,44 @@ import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 @Repository
 public class StoryDataGateway {
-    private final JdbcTemplate jdbcTemplate;
+  private final JdbcTemplate jdbcTemplate;
+  private RowMapper<StoryRecord> rowMapper =
+      (rs, num) ->
+          storyRecordBuilder()
+              .id(rs.getLong("id"))
+              .projectId(rs.getLong("project_id"))
+              .name(rs.getString("name"))
+              .build();
 
-    public StoryDataGateway(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
-    }
+  public StoryDataGateway(DataSource dataSource) {
+    this.jdbcTemplate = new JdbcTemplate(dataSource);
+  }
 
-    public StoryRecord create(StoryFields fields) {
-        KeyHolder keyHolder = new GeneratedKeyHolder();
+  public StoryRecord create(StoryFields fields) {
+    KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(
-                "insert into stories (project_id, name) values (?, ?)", RETURN_GENERATED_KEYS
-            );
+    jdbcTemplate.update(
+        connection -> {
+          PreparedStatement ps =
+              connection.prepareStatement(
+                  "insert into stories (project_id, name) values (?, ?)", RETURN_GENERATED_KEYS);
 
-            ps.setLong(1, fields.projectId);
-            ps.setString(2, fields.name);
-            return ps;
-        }, keyHolder);
+          ps.setLong(1, fields.projectId);
+          ps.setString(2, fields.name);
+          return ps;
+        },
+        keyHolder);
 
-        return find(keyHolder.getKey().longValue());
-    }
+    return find(keyHolder.getKey().longValue());
+  }
 
-    public List<StoryRecord> findAllByProjectId(Long projectId) {
-        return jdbcTemplate.query(
-            "select id, project_id, name from stories where project_id = ?",
-            rowMapper, projectId
-        );
-    }
+  public List<StoryRecord> findAllByProjectId(Long projectId) {
+    return jdbcTemplate.query(
+        "select id, project_id, name from stories where project_id = ?", rowMapper, projectId);
+  }
 
-
-    private StoryRecord find(long id) {
-        return jdbcTemplate.queryForObject(
-            "select id, project_id, name from stories where id = ?",
-            rowMapper, id
-        );
-    }
-
-    private RowMapper<StoryRecord> rowMapper
-        = (rs, num) -> storyRecordBuilder()
-        .id(rs.getLong("id"))
-        .projectId(rs.getLong("project_id"))
-        .name(rs.getString("name"))
-        .build();
+  private StoryRecord find(long id) {
+    return jdbcTemplate.queryForObject(
+        "select id, project_id, name from stories where id = ?", rowMapper, id);
+  }
 }

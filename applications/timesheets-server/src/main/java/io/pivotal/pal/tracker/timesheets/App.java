@@ -9,21 +9,19 @@ import org.springframework.web.client.RestOperations;
 
 import java.util.TimeZone;
 
-
 @SpringBootApplication
 @ComponentScan({"io.pivotal.pal.tracker.timesheets", "io.pivotal.pal.tracker.restsupport"})
 public class App {
 
-    public static void main(String[] args) {
-        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
-        SpringApplication.run(App.class, args);
-    }
+  public static void main(String[] args) {
+    TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+    SpringApplication.run(App.class, args);
+  }
 
-    @Bean
-    ProjectClient projectClient(
-        RestOperations restOperations,
-        @Value("${registration.server.endpoint}") String registrationEndpoint
-    ) {
-        return new ProjectClient(restOperations, registrationEndpoint);
-    }
+  @Bean
+  ProjectClient projectClient(
+      RestOperations restOperations,
+      @Value("${registration.server.endpoint}") String registrationEndpoint) {
+    return new ProjectClient(restOperations, registrationEndpoint);
+  }
 }

@@ -17,29 +17,25 @@ import static org.mockito.Mockito.*;
 
 public class AccountControllerTest {
 
-    private AccountDataGateway gateway = mock(AccountDataGateway.class);
-    private AccountController controller = new AccountController(gateway);
+  private AccountDataGateway gateway = mock(AccountDataGateway.class);
+  private AccountController controller = new AccountController(gateway);
 
-    @Test
-    public void testList() {
-        AccountRecord recordToFind = accountRecordBuilder()
-            .id(13L)
-            .ownerId(2L)
-            .name("Some Name")
-            .build();
-        doReturn(singletonList(recordToFind)).when(gateway).findAllByOwnerId(anyLong());
+  @Test
+  public void testList() {
+    AccountRecord recordToFind =
+        accountRecordBuilder().id(13L).ownerId(2L).name("Some Name").build();
+    doReturn(singletonList(recordToFind)).when(gateway).findAllByOwnerId(anyLong());
 
+    List<AccountInfo> result = controller.list(13);
 
-        List<AccountInfo> result = controller.list(13);
-
-
-        verify(gateway).findAllByOwnerId(13L);
-        assertThat(result).containsExactly(accountInfoBuilder()
-            .id(13L)
-            .ownerId(2L)
-            .name("Some Name")
-            .info("account info")
-            .build()
-        );
-    }
+    verify(gateway).findAllByOwnerId(13L);
+    assertThat(result)
+        .containsExactly(
+            accountInfoBuilder()
+                .id(13L)
+                .ownerId(2L)
+                .name("Some Name")
+                .info("account info")
+                .build());
+  }
 }

@@ -17,50 +17,39 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class StoryDataGatewayTest {
 
-    private TestScenarioSupport testScenarioSupport = new TestScenarioSupport("tracker_backlog_test");
-    private JdbcTemplate template = testScenarioSupport.template;
-    private StoryDataGateway gateway = new StoryDataGateway(testScenarioSupport.dataSource);
+  private TestScenarioSupport testScenarioSupport = new TestScenarioSupport("tracker_backlog_test");
+  private JdbcTemplate template = testScenarioSupport.template;
+  private StoryDataGateway gateway = new StoryDataGateway(testScenarioSupport.dataSource);
 
-    @Before
-    public void setUp() throws Exception {
-        template.execute("DELETE FROM stories;");
-    }
+  @Before
+  public void setUp() throws Exception {
+    template.execute("DELETE FROM stories;");
+  }
 
-    @Test
-    public void testCreate() {
-        StoryFields fields = storyFieldsBuilder()
-            .projectId(22L)
-            .name("aStory")
-            .build();
+  @Test
+  public void testCreate() {
+    StoryFields fields = storyFieldsBuilder().projectId(22L).name("aStory").build();
 
+    StoryRecord created = gateway.create(fields);
 
-        StoryRecord created = gateway.create(fields);
+    assertThat(created.id).isNotNull();
+    assertThat(created.name).isEqualTo("aStory");
+    assertThat(created.projectId).isEqualTo(22L);
 
+    Map<String, Object> persisted =
+        template.queryForMap("select * from stories where id = ?", created.id);
 
-        assertThat(created.id).isNotNull();
-        assertThat(created.name).isEqualTo("aStory");
-        assertThat(created.projectId).isEqualTo(22L);
+    assertThat(persisted.get("project_id")).isEqualTo(22L);
+    assertThat(persisted.get("name")).isEqualTo("aStory");
+  }
 
-        Map<String, Object> persisted = template.queryForMap("select * from stories where id = ?", created.id);
+  @Test
+  public void testFindBy() {
+    template.execute("insert into stories (id, project_id, name) values (1346, 22, 'aStory')");
 
-        assertThat(persisted.get("project_id")).isEqualTo(22L);
-        assertThat(persisted.get("name")).isEqualTo("aStory");
-    }
+    List<StoryRecord> result = gateway.findAllByProjectId(22L);
 
-    @Test
-    public void testFindBy() {
-        template.execute("insert into stories (id, project_id, name) values (1346, 22, 'aStory')");
-
-
-        List<StoryRecord> result = gateway.findAllByProjectId(22L);
-
-
-        assertThat(result).containsExactly(
-            storyRecordBuilder()
-                .id(1346L)
-                .projectId(22L)
-                .name("aStory")
-                .build()
-        );
-    }
+    assertThat(result)
+        .containsExactly(storyRecordBuilder().id(1346L).projectId(22L).name("aStory").build());
+  }
 }
